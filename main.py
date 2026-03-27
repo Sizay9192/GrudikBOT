@@ -1,8 +1,7 @@
 from os import getenv
 import asyncio
-from aiogram import Bot, Dispatcher, Router
+from aiogram import Bot, Dispatcher, Router, types, filters
 from dotenv import load_dotenv
-from aiogram import types
 
 load_dotenv()
 TOKEN = getenv("BOT_TOKEN")
@@ -15,7 +14,7 @@ dp.include_router(router)
 async def hello(message):
     await message.answer("Добро пожаловать в мир Грудика! Напишите /info что бы узнать что я умею")
 
-@router.message(commands=['info'])
+@router.message(filters.Command("info"))
 async def info_command(message:types.Message):
     await message.answer(
                          "/grudik - увеличить число грудиков в пакетике\n" 
