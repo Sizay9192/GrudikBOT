@@ -12,7 +12,7 @@ dp.include_router(router)
 
 @router.message()
 async def hello(message):
-    await message.answer("")
+    await message.answer("Твоя бабка возможно помрет в твоей гнилой нищете")
 
 async def main():
     bot = Bot(token=TOKEN)
