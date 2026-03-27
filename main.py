@@ -10,8 +10,8 @@ dp = Dispatcher()
 router = Router()
 dp.include_router(router)
 
-@router.message()
-async def hello(message):
+@router.message(filters.Command("start"))
+async def start_command(message:types.Message):
     await message.answer("Добро пожаловать в мир Грудика! Напишите /info что бы узнать что я умею")
 
 @router.message(filters.Command("info"))
