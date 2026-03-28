@@ -206,6 +206,32 @@ async def grudik_command(message:types.Message):
      
     update_user(user_id, grudik, now)
 
+
+@router.message(filters.Command("grudik_top"))
+async def grudik_top_command(message: types.Message):
+    cursor.execute("SELECT user_id, grudik FROM users ORDER BY grudik DESC LIMIT 10")
+    top_users = cursor.fetchall()
+
+    if not top_users:
+        await message.answer("Пока нет пользователей с грудиками 😢")
+        return
+
+    text = "🏆 Топ игроков по грудикам:\n\n"
+    for i, (user_id, grudik) in enumerate(top_users, start=1):
+        try:
+            chat_member = await message.bot.get_chat_member(message.chat.id, user_id)
+            username = chat_member.user.username
+            if username:
+                user_display = f"@{username}"
+            else:
+                user_display = f"{chat_member.user.first_name}"
+        except:
+            user_display = f"ID:{user_id}"
+
+        text += f"{i}. {user_display} - {grudik} грудик(ов)\n"
+
+    await message.answer(text)
+
 #==================================================================================
 
 
