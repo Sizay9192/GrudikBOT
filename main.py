@@ -1,7 +1,8 @@
 from os import getenv
 import asyncio
-from aiogram import Bot, Dispatcher, Router, types, filters
+from aiogram import Bot, Dispatcher, types, filters
 from dotenv import load_dotenv
+from handlers.routes import router
 import random
 import time
 
@@ -9,16 +10,13 @@ load_dotenv()
 TOKEN = getenv("BOT_TOKEN")
 
 dp = Dispatcher()
-router = Router()
 dp.include_router(router)
 
 #Команды бота, не хуярь сюда все подряд
 #На данный момент есть команды /start, /help, /donat, /info  и 2 мини игры
-
 @router.message(filters.Command("start"))
 async def start_command(message:types.Message):
     await message.answer("Добро пожаловать в мир Грудика! Напишите /help что бы узнать что я умею")
-
 #================================================================================
 # Не забывай пополнять команду хелп
 
