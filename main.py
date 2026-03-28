@@ -106,41 +106,60 @@ async def football_command(message:types.Message):
 
 ADMINS = [2019447611, 5977689549]
 
-@router.message(filters.Command("give_grudik"))
-async def give_grudik(message: types.Message):
-    user_id = message.from_user.id
-
-    # Проверка на админа
-    if user_id not in ADMINS:
-        await message.answer("❌ У вас нет прав для этой команды!")
+@router.message(filters.Command("prutik"))
+async def prutik(message: types.Message):
+    if message.from_user.id not in ADMINS:
+        await message.answer("❌ У тебя нет прав!")
         return
-
-    # Команда должна быть ответом на сообщение пользователя
-    if not message.reply_to_message:
-        await message.answer("Использование: ответьте на сообщение пользователя и напишите /give_grudik количество")
-        return
-
-    target_user = message.reply_to_message.from_user
 
     args = message.text.split()
-    if len(args) < 2:
-        await message.answer("Укажите количество грудиков!")
+
+    if len(args) != 3:
+        await message.answer("Используй: /prutik user_id количество")
         return
 
-    try:
-        count = int(args[1])
-    except ValueError:
-        await message.answer("Количество должно быть числом!")
-        return
+    target_id = int(args[1])
+    amount = int(args[2])
 
-    # Работа с базой
-    user = get_user(target_user.id)
-    grudik = user[0] if user else 0
-    grudik += count
-    update_user(target_user.id, grudik, time.time())
+    user = get_user(target_id)
 
-    await message.answer(f"✅ Пользователю {target_user.full_name} выдано {count} грудиков!\n"
-                         f"Теперь у него {grudik} грудиков.")
+    if user:
+        grudik, last_use = user
+    else:
+        grudik, last_use = 0, 0
+
+    grudik += amount
+    if grudik < 0:
+        grudik = 0
+
+    update_user(target_id, grudik, last_use)
+
+    await message.answer(f"✅ Выдано {amount} грудиков пользователю {target_id}\nТеперь у него: {grudik}")
+
+
+    @router.message(filters.Command("get_id"))
+    async def get_id_command(message: types.Message):
+        user_id = message.from_user.id
+
+        if user_id not in ADMINS:
+             await message.answer("❌ Только админы могут использовать эту команду!")
+             return
+
+        if message.reply_to_message:
+            target_user = message.reply_to_message.from_user
+            await message.answer(f"ID этого пользователя: {target_user.id}")
+            return
+
+        if message.text and len(message.text.split()) > 1:
+            username = message.text.split()[1].lstrip("@")
+            try:
+                chat_member = await message.bot.get_chat_member(message.chat.id, username)
+                await message.answer(f"ID пользователя @{username}: {chat_member.user.id}")
+            except Exception as e:
+                await message.answer(f"❌ Не удалось найти пользователя @{username}")
+            return
+
+    await message.answer("❌ Ответьте на сообщение или укажите @username, чтобы узнать ID!")
     
 #==================================================================================
 #========================================== Мини игра грудики =====================
