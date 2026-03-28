@@ -105,7 +105,7 @@ async def grudik_command(message:types.Message):
         else:
             await message.answer(f"❌Ваши грудики уменьшились на {abs(change)}! Теперь у вас: {grudik_values[user_id]}")
             
-            grudik_cooldowns[user_id] = now
+    grudik_cooldowns[user_id] = now
 
 #==================================================================================
 
