@@ -10,17 +10,28 @@ dp = Dispatcher()
 router = Router()
 dp.include_router(router)
 
+#Команды бота, не хуярь сюда все подряд
+#На данный момент есть команды /start, /help, /donat, /info
+
 @router.message(filters.Command("start"))
 async def start_command(message:types.Message):
-    await message.answer("Добро пожаловать в мир Грудика! Напишите /info что бы узнать что я умею")
+    await message.answer("Добро пожаловать в мир Грудика! Напишите /help что бы узнать что я умею")
 
-@router.message(filters.Command("info"))
-async def info_command(message:types.Message):
+@router.message(filters.Command("help"))
+async def help_command(message:types.Message):
     await message.answer(
                          "/grudik - увеличить число грудиков в пакетике\n" 
                          "/grudik_top - посмотреть топ 10\n"
+                         "/donat - поддержать автора бота\n"
                          "Команды будут пополняться в будущем..."
                          )
+    
+@router.message(filters.Command("donat"))
+async def donat_command(message:types.Message):
+    await message.answer( "Закинуть подарок создателю -> @SIz6y\n"
+                         "Мой DonationAlerts -> https://dalink.to/sizay9192\n\n"
+                         "Заранее спасибо 💚"
+                        )
 
 async def main():
     bot = Bot(token=TOKEN)
