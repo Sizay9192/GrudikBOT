@@ -4,6 +4,7 @@ from aiogram import Bot, Dispatcher, types, filters, Router
 from dotenv import load_dotenv
 import random
 import time
+import sqlite3
 
 load_dotenv()
 router = Router()
@@ -11,6 +12,38 @@ TOKEN = getenv("BOT_TOKEN")
 
 dp = Dispatcher()
 dp.include_router(router)
+
+#========= база данных ============
+
+conn = sqlite3.connect("grudik.db")
+cursor = conn.cursor()
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS users (
+    user_id INTEGER PRIMARY KEY,
+    grudik INTEGER DEFAULT 0,
+    last_use REAL DEFAULT 0
+)
+""")
+
+conn.commit() 
+
+def get_user(user_id):
+    cursor.execute("SELECT grudik, last_use FROM users WHERE user_id=?", (user_id,))
+    return cursor.fetchone()
+
+def update_user(user_id, grudik, last_use):
+    cursor.execute("""
+    INSERT INTO users (user_id, grudik, last_use)
+    VALUES (?, ?, ?)
+    ON CONFLICT(user_id) DO UPDATE SET
+        grudik=excluded.grudik,
+        last_use=excluded.last_use
+    """, (user_id, grudik, last_use))
+    
+    conn.commit()
+
+#=================================
 
 #Команды бота, не хуярь сюда все подряд
 #На данный момент есть команды /start, /help, /donat, /info  и 2 мини игры
@@ -69,9 +102,39 @@ async def football_command(message:types.Message):
     await message.answer_dice(emoji="⚽")
 
 #==================================================================================
-#============================== VIP(в будущем) ====================================
+#======================================= ADMIN ====================================
 
+ADMINS = [2019447611, 5977689549]
 
+@router.message(filters.Command("add_grudik"))
+async def add_grudik(message: types.Message):
+    if message.from_user.id not in ADMINS:
+        await message.answer("❌ У тебя нет прав!")
+        return
+
+    args = message.text.split()
+
+    if len(args) != 3:
+        await message.answer("Используй: /add_grudik user_id количество")
+        return
+
+    target_id = int(args[1])
+    amount = int(args[2])
+
+    user = get_user(target_id)
+
+    if user:
+        grudik, last_use = user
+    else:
+        grudik, last_use = 0, 0
+
+    grudik += amount
+    if grudik < 0:
+        grudik = 0
+
+    update_user(target_id, grudik, last_use)
+
+    await message.answer(f"✅ Выдано {amount} грудиков пользователю {target_id}\nТеперь у него: {grudik}")
 
 #==================================================================================
 #========================================== Мини игра грудики =====================
@@ -84,38 +147,39 @@ async def grudik_command(message:types.Message):
     now = time.time()
     cooldown = 24*60*60
 
-    if user_id in grudik_cooldowns:
-        last_use = grudik_cooldowns[user_id]
-        if now - last_use < cooldown:
-            remaining = int((cooldown - (now-last_use))/3600)
-            await message.answer("❌Эй, не так быстро \n\n" 
+    user = get_user(user_id)
+    if user:
+        grudik, last_use = user
+    else:
+        grudik, last_use = 0, 0
+
+    if now - last_use < cooldown:
+        remaining = int((cooldown - (now-last_use))/3600)
+        await message.answer("❌Эй, не так быстро \n\n" 
                                  f"🕐Подожди {remaining} часов, прежде чем использовать команду повторно!"
                                  )
-            return
+        return
     change = random.randint(-5, 6)
     if random.random() <0.01:
-        grudik_values[user_id] = 0
+        grudik = 0
         await message.answer(f"Ваши Грудики сгорели, теперь их 0 😔\n"
                              "Шанс на выпадение такого резульатата = 1%, возможно вы везунчик!\n"
                              )
     else:
-        old_value = grudik_values.get(user_id, 0)
-        new_value = old_value + change
-        grudik_values[user_id] = grudik_values.get(user_id, 0)+change
-        if new_value < 0:
-            new_value = 0
-
-        grudik_values[user_id] = new_value
-
+        grudik = max(0, grudik + change)
         if change >= 0:
-            await message.answer(f"✔️Ваши грудики увеличились на {change}!\n" 
-                                 f"Теперь у вас: {grudik_values[user_id]}\n\n"
+            await message.answer(f"🎉Поздравляем! Ваши грудики увеличились на {change}!\n" 
+                                 f"📦В вашем пакетике: {grudik} грудика(ов)\n\n"
                                  "💤Приходи завтра, чтобы использовать команду снова!"
                                  )
-        else:
-            await message.answer(f"❌Ваши грудики уменьшились на {abs(change)}! Теперь у вас: {grudik_values[user_id]}")
             
-    grudik_cooldowns[user_id] = now
+        else:
+            await message.answer(f"❌Сожалеем, но ваши грудики уменьшились на {abs(change)}\n!" 
+                                 f"📦В вашем пакетике: {grudik} грудика(ов)\n\n"
+                                 "💤Приходи завтра, чтобы использовать команду снова!"
+                                 )
+     
+    update_user(user_id, grudik, now)
 
 #==================================================================================
 
