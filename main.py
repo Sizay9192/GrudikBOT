@@ -143,7 +143,7 @@ async def rapper_command(message: types.Message):
         "Nemzzz"
     ]
     
-     name, photo = random.choice(rappers)
+    name, photo = random.choice(rappers)
     
     await message.answer_photo(photo=photo, caption=f"Сегодня ты - {name}")
 
