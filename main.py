@@ -80,7 +80,7 @@ grudik_values = {}
 
 @router.message(filters.Command("grudik"))
 async def grudik_command(message:types.Message):
-    user_id = message.from_used.id
+    user_id = message.from_user.id
     now = time.time()
     cooldown = 24*60*60
 
