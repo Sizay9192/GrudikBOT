@@ -17,6 +17,9 @@ dp.include_router(router)
 async def start_command(message:types.Message):
     await message.answer("Добро пожаловать в мир Грудика! Напишите /help что бы узнать что я умею")
 
+#================================================================================
+# Не забывай пополнять команду хелп
+
 @router.message(filters.Command("help"))
 async def help_command(message:types.Message):
     await message.answer(
@@ -28,12 +31,17 @@ async def help_command(message:types.Message):
                          "Команды будут пополняться в будущем..."
                          )
     
+#=================================================================================
+    
 @router.message(filters.Command("donat"))
 async def donat_command(message:types.Message):
-    await message.answer( "Закинуть подарок создателю -> @SIz6y\n"
-                         "Мой DonationAlerts -> https://dalink.to/sizay9192\n\n"
+    await message.answer( "🔸 Тут ты можешь поддержать создателя копейкой 🔸\n\n"
+                         "Закинуть подарок создателю ▶ @SIz6y\n\n"
+                         "Мой DonationAlerts ▶ https://dalink.to/sizay9192\n\n\n"
                          "Заранее спасибо 💚"
                         )
+    
+#=================== Мини игры ====================================================
     
 @router.message(filters.Command("costi"))
 async def costi_command(message:types.Message):
@@ -42,6 +50,8 @@ async def costi_command(message:types.Message):
 @router.message(filters.Command("casino"))
 async def casino_command(message:types.Message):
     await message.answer_dice(emoji="🎰")
+
+#==================================================================================
 
 async def main():
     bot = Bot(token=TOKEN)
