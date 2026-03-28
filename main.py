@@ -56,16 +56,17 @@ async def start_command(message:types.Message):
 @router.message(filters.Command("help"))
 async def help_command(message:types.Message):
     await message.answer( "🌐 Обычные команды\n\n"
-                         "/grudik - увеличить число грудиков в пакетике\n" 
-                         "/grudik_top - посмотреть топ 10\n"
+                         "/grudik - увеличить число грудиков в пакетиков (не работает)\n" 
+                         "/grudik_top - посмотреть топ 10 (не работает)\n"
                          "/donat - поддержать автора бота\n"
-                         "/vip - купить VIP, /vip_info - что такое VIP и как работает\n\n"
+                         "/vip - купить VIP, /vip_info - что такое VIP и как работает (не работает)\n\n"
                          "🎮 Мини игры!\n\n"
                          "/costi - бросает кубик\n"
                          "/bowling - бросает шар для боулинга\n"
                          "/football - пинает мяч в ворота\n"
                          "/basketball - бросает мяч в кольцо\n"
                          "/casino - запускат казино\n\n"
+                         "/rapper - Какой я репер?"
                          "⏰ Команды будут пополняться в будущем..."
                          )
     
@@ -107,16 +108,16 @@ async def football_command(message:types.Message):
 @router.message(filters.Command("rapper"))
 async def rapper_command(message: types.Message):
     rappers = [
-        "Drake",
-        "Kanye West",
-        "Travis Scott",
-        "Eminem",
+        ("Drake", "https://iimg.su/i/faNWZf"),
+        ("Kanye West", "https://iimg.su/i/LQ7RUD"),
+        ("Travis Scott", "https://iimg.su/i/LYIjdM"),
+        ("Eminem", "https://iimg.su/i/UptKat"),
         "Lil Uzi Vert",
-        "21 Savage",
-        "Future",
-        "Post Malone",
-        "Snoop Dogg",
-        "Jay-Z",
+        ("21 Savage", "https://iimg.su/i/xALYuP"),
+        ("Future", "https://iimg.su/i/K0swqH"),
+        ("Post Malone", "https://iimg.su/i/gN58bY"),
+        ("Snoop Dogg", "https://iimg.su/i/9N2wtB"),
+        ("Jay-Z", "https://iimg.su/i/pYszx1"),
         "Kendrick Lamar",
         "Playboi Carti",
         "Tyler, The Creator",
@@ -130,15 +131,13 @@ async def rapper_command(message: types.Message):
         "EsDeeKid",
         "LazerDim700",
         "Lil 50",
-        "Lil pep",
+        "Lil peep",
         "24kGoldn",
         "Trippie Redd",
         "Chief Keef",
         "80purppp",
         "Eazy-E",
-        "Future",
         "Young Thug",
-        "21 Savage",
         "Ski Mask",
         "YoungBoy",
         "Nemzzz"
@@ -210,6 +209,7 @@ async def prutik(message: types.Message):
     
 #==================================================================================
 #========================================== Мини игра грудики =====================
+"""""
 @router.message(filters.Command("grudik"))
 async def grudik_command(message:types.Message):
     user_id = message.from_user.id
@@ -274,7 +274,7 @@ async def grudik_top_command(message: types.Message):
         text += f"{i}. {user_display} - {grudik} грудик(ов)\n"
 
     await message.answer(text)
-
+"""
 #==================================================================================
 
 
