@@ -11,7 +11,7 @@ router = Router()
 dp.include_router(router)
 
 #Команды бота, не хуярь сюда все подряд
-#На данный момент есть команды /start, /help, /donat, /info
+#На данный момент есть команды /start, /help, /donat, /info  и 2 мини игры
 
 @router.message(filters.Command("start"))
 async def start_command(message:types.Message):
@@ -35,13 +35,13 @@ async def donat_command(message:types.Message):
                          "Заранее спасибо 💚"
                         )
     
-@router.message(filters.Command("/costi"))
+@router.message(filters.Command("costi"))
 async def costi_command(message:types.Message):
-    await message.answer("🎲\n")
+    await message.answer_dice(emoji="🎲")
 
-@router.message(filters.Command("/casino"))
+@router.message(filters.Command("casino"))
 async def casino_command(message:types.Message):
-    await message.answer("🎰\n")
+    await message.answer_dice(emoji="🎰")
 
 async def main():
     bot = Bot(token=TOKEN)
