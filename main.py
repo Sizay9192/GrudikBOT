@@ -29,9 +29,9 @@ async def help_command(message:types.Message):
                          "/vip - купить VIP, /vip_info - что такое VIP и как работает\n\n"
                          "🎮 Мини игры!\n\n"
                          "/costi - бросает кубик\n"
-                         "/bowling - бросает кубик\n"
-                         "/football - бросает кубик\n"
-                         "/basketball - бросает кубик\n"
+                         "/bowling - бросает шар для боулинга\n"
+                         "/football - пинает мяч в ворота\n"
+                         "/basketball - бросает мяч в кольцо\n"
                          "/casino - запускат казино\n\n"
                          "⏰ Команды будут пополняться в будущем..."
                          )
