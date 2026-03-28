@@ -115,40 +115,31 @@ async def give_grudik(message: types.Message):
         await message.answer("❌ У вас нет прав для этой команды!")
         return
 
-    # Получаем текст команды после /give_grudik
-    # Например: "/give_grudik @username 10"
-    args = message.text.split()
-    if len(args) < 3:
-        await message.answer("Использование: /give_grudik @username количество")
+    # Команда должна быть ответом на сообщение пользователя
+    if not message.reply_to_message:
+        await message.answer("Использование: ответьте на сообщение пользователя и напишите /give_grudik количество")
         return
 
-    username = args[1].lstrip("@")  # убираем @
+    target_user = message.reply_to_message.from_user
+
+    args = message.text.split()
+    if len(args) < 2:
+        await message.answer("Укажите количество грудиков!")
+        return
+
     try:
-        count = int(args[2])
+        count = int(args[1])
     except ValueError:
         await message.answer("Количество должно быть числом!")
         return
 
-    # Ищем пользователя в чате по username
-    target_user = None
-    async for member in message.chat.get_members():
-        if member.user.username == username:
-            target_user = member.user
-            break
-
-    if not target_user:
-        await message.answer(f"Пользователь @{username} не найден в этом чате.")
-        return
-
-    # Достаем старое значение грудиков из базы
+    # Работа с базой
     user = get_user(target_user.id)
     grudik = user[0] if user else 0
     grudik += count
-
-    # Обновляем базу
     update_user(target_user.id, grudik, time.time())
 
-    await message.answer(f"✅ Пользователю @{username} выдано {count} грудиков!\n"
+    await message.answer(f"✅ Пользователю {target_user.full_name} выдано {count} грудиков!\n"
                          f"Теперь у него {grudik} грудиков.")
     
 #==================================================================================
