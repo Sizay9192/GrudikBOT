@@ -163,9 +163,6 @@ async def prutik(message: types.Message):
     
 #==================================================================================
 #========================================== Мини игра грудики =====================
-grudik_cooldowns = {}
-grudik_values = {}
-
 @router.message(filters.Command("grudik"))
 async def grudik_command(message:types.Message):
     user_id = message.from_user.id
@@ -205,7 +202,6 @@ async def grudik_command(message:types.Message):
                                  )
      
     update_user(user_id, grudik, now)
-
 
 @router.message(filters.Command("grudik_top"))
 async def grudik_top_command(message: types.Message):
