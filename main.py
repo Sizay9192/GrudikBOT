@@ -88,8 +88,8 @@ async def grudik_command(message:types.Message):
         last_use = grudik_cooldowns[user_id]
         if now - last_use < cooldown:
             remaining = int((cooldown - (now-last_use))/3600)
-            await message.answer(f"❌Эй, не так быстро \n" 
-                                 "🕐Подожди {remaining} часов, прежде чем использовать команду повторно!"
+            await message.answer("❌Эй, не так быстро \n\n" 
+                                 f"🕐Подожди {remaining} часов, прежде чем использовать команду повторно!"
                                  )
             return
     change = random.randint(-5, 6)
@@ -108,7 +108,10 @@ async def grudik_command(message:types.Message):
         grudik_values[user_id] = new_value
 
         if change >= 0:
-            await message.answer(f"✔️Ваши грудики увеличились на {change}! Теперь у вас: {grudik_values[user_id]}")
+            await message.answer(f"✔️Ваши грудики увеличились на {change}!\n" 
+                                 f"Теперь у вас: {grudik_values[user_id]}\n\n"
+                                 "💤Приходи завтра, чтобы использовать команду снова!"
+                                 )
         else:
             await message.answer(f"❌Ваши грудики уменьшились на {abs(change)}! Теперь у вас: {grudik_values[user_id]}")
             
