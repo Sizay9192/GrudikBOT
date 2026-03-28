@@ -142,10 +142,10 @@ async def rapper_command(message: types.Message):
         "YoungBoy",
         "Nemzzz"
     ]
-
-    rapper = random.choice(rappers)
-
-    await message.answer(f"🎤 Ты сегодня — {rapper}")
+    
+     name, photo = random.choice(rappers)
+    
+    await message.answer_photo(photo=photo, caption=f"Сегодня ты - {name}")
 
 #==================================================================================
 #======================================= ADMIN ====================================
