@@ -106,36 +106,51 @@ async def football_command(message:types.Message):
 
 ADMINS = [2019447611, 5977689549]
 
-@router.message(filters.Command("add_grudik"))
-async def add_grudik(message: types.Message):
-    if message.from_user.id not in ADMINS:
-        await message.answer("❌ У тебя нет прав!")
+@router.message(filters.Command("give_grudik"))
+async def give_grudik(message: types.Message):
+    user_id = message.from_user.id
+
+    # Проверка на админа
+    if user_id not in ADMINS:
+        await message.answer("❌ У вас нет прав для этой команды!")
         return
 
+    # Получаем текст команды после /give_grudik
+    # Например: "/give_grudik @username 10"
     args = message.text.split()
-
-    if len(args) != 3:
-        await message.answer("Используй: /add_grudik user_id количество")
+    if len(args) < 3:
+        await message.answer("Использование: /give_grudik @username количество")
         return
 
-    target_id = int(args[1])
-    amount = int(args[2])
+    username = args[1].lstrip("@")  # убираем @
+    try:
+        count = int(args[2])
+    except ValueError:
+        await message.answer("Количество должно быть числом!")
+        return
 
-    user = get_user(target_id)
+    # Ищем пользователя в чате по username
+    target_user = None
+    async for member in message.chat.get_members():
+        if member.user.username == username:
+            target_user = member.user
+            break
 
-    if user:
-        grudik, last_use = user
-    else:
-        grudik, last_use = 0, 0
+    if not target_user:
+        await message.answer(f"Пользователь @{username} не найден в этом чате.")
+        return
 
-    grudik += amount
-    if grudik < 0:
-        grudik = 0
+    # Достаем старое значение грудиков из базы
+    user = get_user(target_user.id)
+    grudik = user[0] if user else 0
+    grudik += count
 
-    update_user(target_id, grudik, last_use)
+    # Обновляем базу
+    update_user(target_user.id, grudik, time.time())
 
-    await message.answer(f"✅ Выдано {amount} грудиков пользователю {target_id}\nТеперь у него: {grudik}")
-
+    await message.answer(f"✅ Пользователю @{username} выдано {count} грудиков!\n"
+                         f"Теперь у него {grudik} грудиков.")
+    
 #==================================================================================
 #========================================== Мини игра грудики =====================
 grudik_cooldowns = {}
@@ -174,7 +189,7 @@ async def grudik_command(message:types.Message):
                                  )
             
         else:
-            await message.answer(f"❌Сожалеем, но ваши грудики уменьшились на {abs(change)}\n!" 
+            await message.answer(f"❌Сожалеем, но ваши грудики уменьшились на {abs(change)}!\n" 
                                  f"📦В вашем пакетике: {grudik} грудика(ов)\n\n"
                                  "💤Приходи завтра, чтобы использовать команду снова!"
                                  )
