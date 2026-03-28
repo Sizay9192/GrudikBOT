@@ -23,6 +23,8 @@ async def help_command(message:types.Message):
                          "/grudik - увеличить число грудиков в пакетике\n" 
                          "/grudik_top - посмотреть топ 10\n"
                          "/donat - поддержать автора бота\n"
+                         "/costi - бросает кубик\n"
+                         "/casino - запускат казино\n"
                          "Команды будут пополняться в будущем..."
                          )
     
@@ -32,6 +34,14 @@ async def donat_command(message:types.Message):
                          "Мой DonationAlerts -> https://dalink.to/sizay9192\n\n"
                          "Заранее спасибо 💚"
                         )
+    
+@router.message(filters.Command("/costi"))
+async def costi_command(message:types.Message):
+    await message.answer("🎲\n")
+
+@router.message(filters.Command("/casino"))
+async def casino_command(message:types.Message):
+    await message.answer("🎰\n")
 
 async def main():
     bot = Bot(token=TOKEN)
