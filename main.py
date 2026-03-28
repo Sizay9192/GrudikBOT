@@ -126,7 +126,7 @@ async def rapper_command(message: types.Message):
         ("Xxxtentaciom", "https://iimg.su/i/94MOcp"),
         ("King Von", "https://iimg.su/i/aYKDcw"),
         ("Lil Loaded", "https://iimg.su/i/QZZPMy"),
-        ("Juice WRLD", "https://iimg.su/i/zhgFnr"),
+        ("Juice WRLD", "https://iimg.su/i/HEjHUE"),
         ("Lil Tecca", "https://iimg.su/i/bfHilp"),
         ("EsDeeKid", "https://iimg.su/i/rvV6yv"),
         ("LazerDim700", "https://iimg.su/i/LaI8nx"),
@@ -145,7 +145,7 @@ async def rapper_command(message: types.Message):
     
     name, photo = random.choice(rappers)
     
-    await message.answer_photo(photo=photo, caption=f"Сегодня ты - {name}")
+    await message.answer_photo(photo=photo, caption=f"🎤 Сегодня ты - {name}")
 
 #==================================================================================
 #======================================= ADMIN ====================================
