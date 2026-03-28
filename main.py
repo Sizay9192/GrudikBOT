@@ -102,6 +102,53 @@ async def football_command(message:types.Message):
     await message.answer_dice(emoji="⚽")
 
 #==================================================================================
+#=====================================Мини игра репер==============================
+
+@router.message(filters.Command("rapper"))
+async def rapper_command(message: types.Message):
+    rappers = [
+        "Drake",
+        "Kanye West",
+        "Travis Scott",
+        "Eminem",
+        "Lil Uzi Vert",
+        "21 Savage",
+        "Future",
+        "Post Malone",
+        "Snoop Dogg",
+        "Jay-Z",
+        "Kendrick Lamar",
+        "Playboi Carti",
+        "Tyler, The Creator",
+        "A$AP Rocky",
+        "Ice Cube",
+        "Xxxtentaciom",
+        "King Von",
+        "Lil Loaded",
+        "Juice WRLD",
+        "Lil Tecca",
+        "EsDeeKid",
+        "LazerDim700",
+        "Lil 50",
+        "Lil pep",
+        "24kGoldn",
+        "Trippie Redd",
+        "Chief Keef",
+        "80purppp",
+        "Eazy-E",
+        "Future",
+        "Young Thug",
+        "21 Savage",
+        "Ski Mask",
+        "YoungBoy",
+        "Nemzzz"
+    ]
+
+    rapper = random.choice(rappers)
+
+    await message.answer(f"🎤 Ты сегодня — {rapper}")
+
+#==================================================================================
 #======================================= ADMIN ====================================
 
 ADMINS = [2019447611, 5977689549]
