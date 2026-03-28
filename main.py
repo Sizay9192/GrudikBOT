@@ -16,7 +16,7 @@ dp.include_router(router)
 #На данный момент есть команды /start, /help, /donat, /info  и 2 мини игры
 @router.message(filters.Command("start"))
 async def start_command(message:types.Message):
-    await message.answer("Добро пожаловать в мир Грудика! Напишите /help что бы узнать что я умею")
+    await message.answer("Добро пожаловать в мир Грудика! Напишите /help что бы узнать что я умею!")
 #================================================================================
 # Не забывай пополнять команду хелп
 
@@ -97,7 +97,14 @@ async def grudik_command(message:types.Message):
                              "Шанс на выпадение такого резульатата = 1%, возможно вы везунчик!\n"
                              )
     else:
+        old_value = grudik_values.get(user_id, 0)
+        new_value = old_value + change
         grudik_values[user_id] = grudik_values.get(user_id, 0)+change
+        if new_value < 0:
+            new_value = 0
+
+        grudik_values[user_id] = new_value
+
         if change >= 0:
             await message.answer(f"✔️Ваши грудики увеличились на {change}! Теперь у вас: {grudik_values[user_id]}")
         else:
