@@ -66,6 +66,7 @@ async def help_command(message:types.Message):
                          "/football - пинает мяч в ворота\n"
                          "/basketball - бросает мяч в кольцо\n"
                          "/casino - запускат казино\n"
+                         "/grudka - какой я грудик?\n"
                          "/rapper - Какой я репер?\n\n"
                          "⏰ Команды будут пополняться в будущем..."
                          )
@@ -140,7 +141,7 @@ async def rapper_command(message: types.Message):
         ("Young Thug", "https://iimg.su/i/SuRGS1"),
         ("Ski Mask", "https://iimg.su/i/f3v5Yz"),
         ("YoungBoy", "https://iimg.su/i/wbOO6b"),
-        ("Nemzzz" "https://iimg.su/i/72au2R"),
+        ("Nemzzz", "https://iimg.su/i/72au2R"),
         ("Lil jeff", "https://iimg.su/i/634PUK"),
         ("DD Osama", "https://iimg.su/i/zmnSEP"),
         ("6ix9ine", "https://iimg.su/i/YxOIAw"),
