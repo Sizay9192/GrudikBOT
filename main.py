@@ -141,6 +141,10 @@ async def rapper_command(message: types.Message):
         ("Ski Mask", "https://iimg.su/i/f3v5Yz"),
         ("YoungBoy", "https://iimg.su/i/wbOO6b"),
         ("Nemzzz" "https://iimg.su/i/72au2R"),
+        ("Lil jeff", "https://iimg.su/i/634PUK"),
+        ("DD Osama", "https://iimg.su/i/zmnSEP"),
+        ("6ix9ine", "https://iimg.su/i/YxOIAw"),
+        ("Nle Choppa", "https://iimg.su/i/56QsAS")
     ]
     
     name, photo = random.choice(rappers)
