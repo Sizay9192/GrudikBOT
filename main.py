@@ -65,8 +65,8 @@ async def help_command(message:types.Message):
                          "/bowling - бросает шар для боулинга\n"
                          "/football - пинает мяч в ворота\n"
                          "/basketball - бросает мяч в кольцо\n"
-                         "/casino - запускат казино\n\n"
-                         "/rapper - Какой я репер?"
+                         "/casino - запускат казино\n"
+                         "/rapper - Какой я репер?\n\n"
                          "⏰ Команды будут пополняться в будущем..."
                          )
     
@@ -108,44 +108,50 @@ async def football_command(message:types.Message):
 @router.message(filters.Command("rapper"))
 async def rapper_command(message: types.Message):
     rappers = [
-        ("Drake", "https://iimg.su/i/faNWZf"),
-        ("Kanye West", "https://iimg.su/i/LQ7RUD"),
-        ("Travis Scott", "https://iimg.su/i/LYIjdM"),
-        ("Eminem", "https://iimg.su/i/UptKat"),
-        ("Lil Uzi Vert", "https://iimg.su/i/teRpkS"),
-        ("21 Savage", "https://iimg.su/i/xALYuP"),
-        ("Future", "https://iimg.su/i/K0swqH"),
-        ("Post Malone", "https://iimg.su/i/gN58bY"),
-        ("Snoop Dogg", "https://iimg.su/i/9N2wtB"),
-        ("Jay-Z", "https://iimg.su/i/pYszx1"),
-        ("Kendrick Lamar", "https://iimg.su/i/YatPco"),
-        ("Playboi Carti", "https://iimg.su/i/PPT71f"),
-        ("Tyler, The Creator", "https://iimg.su/i/YgUkpO"),
-        ("A$AP Rocky", "https://iimg.su/i/cCYPaw"),
-        ("Ice Cube", "https://iimg.su/i/dOYyQD"),
-        ("Xxxtentaciom", "https://iimg.su/i/94MOcp"),
-        ("King Von", "https://iimg.su/i/aYKDcw"),
-        ("Lil Loaded", "https://iimg.su/i/QZZPMy"),
-        ("Juice WRLD", "https://iimg.su/i/HEjHUE"),
-        ("Lil Tecca", "https://iimg.su/i/bfHilp"),
-        ("EsDeeKid", "https://iimg.su/i/rvV6yv"),
-        ("LazerDim700", "https://iimg.su/i/LaI8nx"),
-        ("Lil 50", "https://iimg.su/i/Nj0M73"),
-        ("Lil peep", "https://iimg.su/i/VafjYx"),
-        ("24kGoldn", "https://iimg.su/i/WtKnCW"),
-        ("Trippie Redd", "https://iimg.su/i/09evp9"),
-        ("Chief Keef", "https://iimg.su/i/EZK3q2"),
-        ("80purppp", "https://iimg.su/i/fwe9cW"),
-        ("Eazy-E", "https://iimg.su/i/9bJ99S"),
-        ("Young Thug", "https://iimg.su/i/OxqC6s"),
-        ("Ski Mask", "https://iimg.su/i/PWVLKL"),
-        ("YoungBoy", "https://iimg.su/i/fwe9cW"),
-        ("Nemzzz" "https://iimg.su/i/C7rUIg"),
+        ("Drake", "https://iimg.su/i/Ejw05r"),
+        ("Kanye West", "https://iimg.su/i/7g09sE"),
+        ("Travis Scott", "https://iimg.su/i/AJSPcR"),
+        ("Eminem", "https://iimg.su/i/9Om0on"),
+        ("Lil Uzi Vert", "https://iimg.su/i/z6T2XG"),
+        ("21 Savage", "https://iimg.su/i/kAekJF"),
+        ("Future", "https://iimg.su/i/jSLhXS"),
+        ("Post Malone", "https://iimg.su/i/oDLS8a"),
+        ("Snoop Dogg", "https://iimg.su/i/njPeCa"),
+        ("Jay-Z", "https://iimg.su/i/lGiM7o"),
+        ("Kendrick Lamar", "https://iimg.su/i/NrURhx"),
+        ("Playboi Carti", "https://iimg.su/i/hSQfTa"),
+        ("Tyler, The Creator", "https://iimg.su/i/2SlaDc"),
+        ("A$AP Rocky", "https://iimg.su/i/4wzl4B"),
+        ("Ice Cube", "https://iimg.su/i/UwDcZT"),
+        ("Xxxtentaciom", "https://iimg.su/i/Pp9z5A"),
+        ("King Von", "https://iimg.su/i/JsClO2"),
+        ("Lil Loaded", "https://iimg.su/i/NSOLB0"),
+        ("Juice WRLD", "https://iimg.su/i/ZSMMRJ"),
+        ("Lil Tecca", "https://iimg.su/i/yWMOgg"),
+        ("EsDeeKid", "https://iimg.su/i/AqlxoX"),
+        ("LazerDim700", "https://iimg.su/i/4Hudci"),
+        ("Lil 50", "https://iimg.su/i/6sDSbE"),
+        ("Lil peep", "https://iimg.su/i/7QJ8HW"),
+        ("24kGoldn", "https://iimg.su/i/EiDdOO"),
+        ("Trippie Redd", "https://iimg.su/i/eltg5j"),
+        ("Chief Keef", "https://iimg.su/i/5yiDuc"),
+        ("80purppp", "https://iimg.su/i/IJqCs6"),
+        ("Eazy-E", "https://iimg.su/i/R1utyH"),
+        ("Young Thug", "https://iimg.su/i/SuRGS1"),
+        ("Ski Mask", "https://iimg.su/i/f3v5Yz"),
+        ("YoungBoy", "https://iimg.su/i/wbOO6b"),
+        ("Nemzzz" "https://iimg.su/i/72au2R"),
     ]
     
     name, photo = random.choice(rappers)
-    
-    await message.answer_photo(photo=photo, caption=f"🎤 Сегодня ты - {name}")
+
+    text = f"🎤 Сегодня ты - {name}"
+    if random.random() < 0.4:
+        text += "\n\n🎁Подпишись на наш канал ➡️ t.me/grudikchanel"
+    await message.answer_photo(
+        photo=photo,
+        caption=text
+    )
 
 #==================================================================================
 #======================================= ADMIN ====================================
@@ -206,6 +212,37 @@ async def prutik(message: types.Message):
             return
 
     await message.answer("❌ Ответьте на сообщение или укажите @username, чтобы узнать ID!")
+
+
+@router.message(filters.Command("broadcast"))
+async def broadcast_command(message: types.Message):
+    if message.from_user.id not in ADMINS:
+        await message.answer("❌ Нет доступа")
+        return
+
+    # 🔥 если ответ на сообщение
+    if message.reply_to_message:
+        text = message.reply_to_message.text
+    else:
+        args = message.text.split(maxsplit=1)
+        if len(args) < 2:
+            await message.answer("Используй: /broadcast текст или ответь на сообщение")
+            return
+        text = args[1]
+
+    cursor.execute("SELECT chat_id FROM chats")
+    chats = cursor.fetchall()
+
+    sent = 0
+
+    for (chat_id,) in chats:
+        try:
+            await message.bot.send_message(chat_id, text)
+            sent += 1
+        except:
+            pass
+
+    await message.answer(f"✅ Отправлено в {sent} чатов")
     
 #==================================================================================
 #========================================== Мини игра грудики =====================
