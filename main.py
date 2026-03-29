@@ -8,7 +8,7 @@ import sqlite3
 
 load_dotenv()
 router = Router()
-TOKEN = getenv("BOT_TOKEN")
+TOKEN = getenv("") #верни BOT_TOKEN как захочешь включить
 
 dp = Dispatcher()
 dp.include_router(router)
